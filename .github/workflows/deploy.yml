@@ -1,0 +1,21 @@
+name: Auto Deploy to EC2 Platform
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger deployment API
+        run: |
+          curl -X POST "${{ secrets.DEPLOY_API_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "student_name": "${{ secrets.STUDENT_NAME }}",
+              "project_name": "${{ secrets.PROJECT_NAME }}",
+              "repo_url": "${{ secrets.REPO_URL }}"
+            }'
